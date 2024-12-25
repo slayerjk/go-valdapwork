@@ -3,7 +3,7 @@ Go - va helper functions for "go-ldap/ldap" package
 
 Need LDAP data, check below json file example.
 
-<h3>LDAP Data Json file example</h3>
+<h3>LDAP Data json file example</h3>
 
 ```
 {
