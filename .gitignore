@@ -1,0 +1,7 @@
+# ignore all
+*
+
+# execpt
+!README.md
+!.gitignore
+!valdapwork.go
