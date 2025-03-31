@@ -1,4 +1,4 @@
-module github.com/slayerjk/go-valdapwork
+module github.com/slayerjk/go-valdapwork/v2
 
 go 1.24.0
 
