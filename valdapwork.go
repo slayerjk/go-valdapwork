@@ -52,6 +52,7 @@ func LdapBind(conn *ldap.Conn, bindUser, bindPassword string) error {
 
 // Make LDAP search request based on LDAP filter & LDAP Attributes to get
 // Example of filter: "(&(objectClass=user)(samaccountname=%s))"
+// Search request may contain multiple values
 func MakeSearchReq(conn *ldap.Conn, ldapBaseDN string, ldapFilter string, ldapAttrs ...string) ([]*ldap.Entry, error) {
 	searchReq := ldap.NewSearchRequest(
 		ldapBaseDN,
@@ -77,6 +78,24 @@ func MakeSearchReq(conn *ldap.Conn, ldapBaseDN string, ldapFilter string, ldapAt
 	}
 
 	return conResult.Entries, nil
+}
+
+// Get LDAP attribute
+// Return first result of *ldap.Entry(ldap.Entry[0])
+func GetAttr(conn *ldap.Conn, filter, login, baseDN, attr string) (string, error) {
+	// making LDAP search request
+	reqResult, err := MakeSearchReq(conn, baseDN, filter, attr)
+	if err != nil {
+		return "", err
+	}
+
+	// returning displayName
+	result := reqResult[0].GetAttributeValue(attr)
+	if len(result) == 0 {
+		return "", fmt.Errorf("empty attribute(%s) for %s", attr, login)
+	}
+
+	return result, nil
 }
 
 // Search ONLY Enabled user's 'samaccountname' by it's 'displayname'
