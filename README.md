@@ -4,7 +4,7 @@ Go - va helper functions for "go-ldap/ldap" package
 <h2>Functions</h2>
 
 * MakeLdapConnection - create *ldap.Conn
-* StartTLSConnWoVerification - start TLS over *ldap.Conn
+* StartTLSConnWoVerification - create *ldap.Conn with TLS
 * LdapBind - make LDAP bind
 * MakeSearchReq - get *ldap.Entry result using filter and attributes
 * GetAttr - get single string result of *ldap.Entry for single attribute

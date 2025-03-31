@@ -15,16 +15,8 @@ func main() {
 	bindUser := acc + "@" + fqdn
 	bindPassword := "domain-account-password"
 
-	// make LDAP connection
-	conn, err := ldap.MakeLdapConnection(fqdn)
-	if err != nil {
-		fmt.Printf("failed to make LDAP connection:\n\t%v\n", err)
-		os.Exit(1)
-	}
-	defer conn.Close()
-
-	// start TLS
-	err = ldap.StartTLSConnWoVerification(conn)
+	// start LDAP connection over TLS
+	conn, err := ldap.StartTLSConnWoVerification(fqdn)
 	if err != nil {
 		fmt.Printf("failed to make TLS connection to LDAP:\n\t%v\n", err)
 	}

@@ -26,18 +26,25 @@ func MakeLdapConnection(ldapFqdn string) (*ldap.Conn, error) {
 
 // Make LDAP TLS Connection with existing LDAP connection
 // Start connect with default ldap conn(389) then reconnect to use TLS
-func StartTLSConnWoVerification(conn *ldap.Conn) error {
+
+// func StartTLSConnWoVerification(conn *ldap.Conn) error {
+func StartTLSConnWoVerification(ldapFqdn string) (*ldap.Conn, error) {
+	conn, err := MakeLdapConnection(ldapFqdn)
+	if err != nil {
+		return nil, fmt.Errorf("failed to make LDAP connection:\n\t%v", err)
+	}
+
 	tlsConfig := &tls.Config{
 		InsecureSkipVerify: true,
 	}
 
 	// reDial with TLS
-	err := conn.StartTLS(tlsConfig)
+	err = conn.StartTLS(tlsConfig)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return conn, nil
 }
 
 // Make LDAP Bind
