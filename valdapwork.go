@@ -26,8 +26,6 @@ func MakeLdapConnection(ldapFqdn string) (*ldap.Conn, error) {
 
 // Make LDAP TLS Connection with existing LDAP connection
 // Start connect with default ldap conn(389) then reconnect to use TLS
-
-// func StartTLSConnWoVerification(conn *ldap.Conn) error {
 func StartTLSConnWoVerification(ldapFqdn string) (*ldap.Conn, error) {
 	conn, err := MakeLdapConnection(ldapFqdn)
 	if err != nil {

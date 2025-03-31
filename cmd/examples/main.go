@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	ldap "github.com/slayerjk/go-valdapwork/v2"
+	ldap "github.com/slayerjk/go-valdapwork"
 )
 
 func main() {
