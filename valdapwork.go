@@ -3,6 +3,8 @@ package valdapwork
 import (
 	"crypto/tls"
 	"fmt"
+	"math"
+	"time"
 
 	"github.com/go-ldap/ldap/v3"
 )
@@ -144,4 +146,21 @@ func SearchEnabledSAMAByDisplayname(conn *ldap.Conn, displayName, ldapBasedn, fi
 	}
 
 	return "", fmt.Errorf("failed to find any ENABLED account entry")
+}
+
+// Convert LDAP attribute time 'pwdLastSet'(100-nanosecond steps since 12:00 AM, January 1, 1601, UTC) to time.Time
+// Thanks to https://stackoverflow.com/questions/57901280/calculate-time-time-from-timestamp-starting-from-1601-01-01-in-go
+func ConvertPwdLastSetAttr(input int64) time.Time {
+	maxd := time.Duration(math.MaxInt64).Truncate(100 * time.Nanosecond)
+	maxdUnits := int64(maxd / 100) // number of 100-ns units
+
+	t := time.Date(1601, 1, 1, 0, 0, 0, 0, time.UTC)
+	for input > maxdUnits {
+		t = t.Add(maxd)
+		input -= maxdUnits
+	}
+	if input != 0 {
+		t = t.Add(time.Duration(input * 100))
+	}
+	return t
 }
